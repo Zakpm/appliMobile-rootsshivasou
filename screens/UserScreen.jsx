@@ -105,6 +105,7 @@ export default class UserScreen extends Component {
           keyboardType="email-address"
         />
         </View>
+        <Text style={styles.updateMessage}>{this.state.updateMessage}</Text>
         <TouchableOpacity onPress={this.handleUpdate} style={styles.button}>
           <Text style={styles.buttonText}>Mettre à jour</Text>
         </TouchableOpacity>
@@ -145,5 +146,10 @@ const styles = StyleSheet.create({
     color: '#fff', // Couleur du texte du bouton
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  updateMessage: {
+    color: 'green', // Ou rouge pour les erreurs, selon le message
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

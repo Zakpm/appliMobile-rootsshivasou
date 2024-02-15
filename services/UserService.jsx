@@ -1,11 +1,22 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 class UserService {
     // URL de base de l'API
     apiUrl = "http://192.168.1.101:9981";
 
+    async getAuthHeaders() {
+        const token = await AsyncStorage.getItem('userToken');
+        return {
+            'Content-Type': 'application/json',
+            Authorization: token ? `Bearer ${token}` : '',
+        };
+    }
+
     // Obtenir tous les utilisateurs
     async getAllUsers() {
         try {
-            const response = await fetch(`${this.apiUrl}/users`);
+            const headers = await this.getAuthHeaders();
+            const response = await fetch(`${this.apiUrl}/users`, { headers });
             if (!response.ok) throw new Error('Erreur réseau');
             return await response.json();
         } catch (error) {
@@ -16,7 +27,8 @@ class UserService {
     // Obtenir un utilisateur par ID
     async getUserById(userId) {
         try {
-            const response = await fetch(`${this.apiUrl}/user/${userId}`);
+            const headers = await this.getAuthHeaders();
+            const response = await fetch(`${this.apiUrl}/user/${userId}`, {headers});
             if (!response.ok) throw new Error('Erreur réseau');
             return await response.json();
         } catch (error) {
@@ -29,7 +41,8 @@ class UserService {
         console.log('Mise à jour de l’utilisateur avec les données suivantes:', userData);
     
         try {
-            const response = await fetch(`${this.apiUrl}/user/${userId}`, {
+            const headers = await this.getAuthHeaders();
+            const response = await fetch(`${this.apiUrl}/user/${userId}`, {headers}, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,11 +60,10 @@ class UserService {
     // Mettre à jour un utilisateur
     async updateUser(userId, userData) {
         try {
+            const headers = await this.getAuthHeaders();
             const response = await fetch(`${this.apiUrl}/user/${userId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: await this.getAuthHeaders(),
                 body: JSON.stringify(userData),
             });
 
@@ -65,7 +77,8 @@ class UserService {
     // Supprimer un utilisateur
     async deleteUser(userId) {
         try {
-            const response = await fetch(`${this.apiUrl}/user/${userId}`, {
+            const headers = await this.getAuthHeaders();
+            const response = await fetch(`${this.apiUrl}/user/${userId}`, {headers}, {
                 method: 'DELETE',
             });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Button, StyleSheet, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, Button, StyleSheet, Image, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../reducers/user'; // Importez l'action d'authentification
 import { login } from '../services/AuthServices';
@@ -30,14 +30,14 @@ export default function AuthScreen({ navigation }) {
         />
         <View style={styles.loginContainer}>
         <TextInput
-            placeholder="Username"
+            placeholder="Pseudo/mail"
             value={username}
             onChangeText={setUsername}
             style={styles.input}
         />
         <View style={styles.passwordContainer}>
             <TextInput
-            placeholder="Password"
+            placeholder="mot de passe"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!passwordVisible}
@@ -50,7 +50,12 @@ export default function AuthScreen({ navigation }) {
             <FontAwesome name={passwordVisible ? 'eye' : 'eye-slash'} size={20} color="grey" />
             </TouchableOpacity>
         </View>
-        <Button title="Login" onPress={handleLogin} />
+        <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={handleLogin}
+                >
+                    <Text style={styles.buttonText}>connexion</Text>
+                </TouchableOpacity>
         </View>
     </View>
   );
@@ -91,10 +96,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 200, // Ajustez la largeur selon vos besoins
-    height: 200, // Ajustez la hauteur selon vos besoins
+    width: 300, // Ajustez la largeur selon vos besoins
+    height: 300, // Ajustez la hauteur selon vos besoins
     alignSelf: 'center', // Centre le logo dans le conteneur
-    marginBottom: 20, // Espace entre le logo et le formulaire
+  },
+  button: {
+    backgroundColor: '#753742',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
 

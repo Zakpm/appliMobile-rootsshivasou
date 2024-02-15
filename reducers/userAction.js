@@ -22,5 +22,3 @@ export const fetchUsers = () => async dispatch => {
 export const addUser = user => ({ type: ADD_USER, payload: user });
 export const updateUser = user => ({ type: UPDATE_USER, payload: user });
 export const deleteUser = userId => ({ type: DELETE_USER, payload: userId });
-
-// Ici, vous pouvez également ajouter des thunk actions pour les appels API asynchrones
